@@ -1,16 +1,27 @@
 import Head from 'next/head'
-import styles from '@/styles/Home.module.scss'
-import { useState } from 'react'
-import { SyncOutlined, UserOutlined } from '@ant-design/icons'
-import { Col, message, Row } from 'antd'
+import styles from '@/styles/Layout.module.scss'
+import { Col, Row } from 'antd'
 import { Card } from 'antd';
+import Earn from '@/components/Earn'
+import { GetServerSideProps } from 'next';
+import { generateRandomWalletAddress } from '@/lib/address';
+import prisma from '@/lib/prisma';
+import { Address } from '@prisma/client';
 
-export default function Home() {
-  const [address, setAddress] = useState(`0x${'0'.repeat(40)}`)
-  const [money, setMoney] = useState(0)
-  const refreshMoney = () => {
-    message.success('刷新成功！')
-  }
+export const getServerSideProps: GetServerSideProps = async () => {
+  const randomKey = generateRandomWalletAddress()
+  const address = await prisma.address.create({
+    data: {
+      address: randomKey,
+      balance: 0
+    }
+  })
+  return {
+    props: { address },
+  };
+};
+
+export default function Home(props: {address: Address}) {
   return (
     <>
       <Head>
@@ -23,15 +34,7 @@ export default function Home() {
         <Row gutter={16}>
           <Col span={12}>
             <Card title="Earn Money" bordered={false}>
-              <section>
-                <UserOutlined className={styles.userIcon} style={{ fontSize: 18, color: '#40a9ff' }} />
-                <span>{address}</span>
-                <div className={styles.money}>
-                  <span>余额:</span>
-                  <span>{money}</span>
-                  <SyncOutlined onClick={refreshMoney} className={styles.refresh} />
-                </div>
-              </section>
+              <Earn {...props.address}/>
             </Card>
           </Col>
           <Col span={12}>

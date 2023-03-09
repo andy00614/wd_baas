@@ -1,0 +1,64 @@
+// import { PrismaClient } from '@prisma/client';
+
+// let prisma: PrismaClient;
+
+// if (process.env.NODE_ENV === "production") {
+//   prisma = new PrismaClient();
+// } else {
+//   let globalWithPrisma = global as typeof globalThis & {
+//     prisma: PrismaClient;
+//   };
+//   if (!globalWithPrisma.prisma) {
+//     globalWithPrisma.prisma = new PrismaClient();
+//   }
+//   prisma = globalWithPrisma.prisma;
+// }
+
+// export default prisma;
+
+// import { PrismaClient } from "@prisma/client";
+
+// // PrismaClient is attached to the `global` object in development to prevent
+// // exhausting your database connection limit.
+// //
+// // Learn more:
+// // https://pris.ly/d/help/next-js-best-practices
+
+// let prisma: PrismaClient;
+
+// if (process.env.NODE_ENV === "production") {
+//   prisma = new PrismaClient();
+// } else {
+//   if (!(global as any).prisma) {
+//     (global as any).prisma = new PrismaClient();
+//   }
+//   prisma = (global as any).prisma;
+// }
+// export default prisma;
+
+
+import { Prisma, PrismaClient } from "@prisma/client";
+
+declare global {
+  namespace NodeJS {
+    interface Global {
+      prisma: PrismaClient;
+    }
+  }
+}
+
+let prisma: PrismaClient;
+
+if (typeof window === "undefined") {
+  if (process.env.NODE_ENV === "production") {
+    prisma = new PrismaClient();
+  } else {
+    if (!global.prisma) {
+      global.prisma = new PrismaClient();
+    }
+
+    prisma = global.prisma;
+  }
+}
+
+export default prisma;
