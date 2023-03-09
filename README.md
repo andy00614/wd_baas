@@ -5,14 +5,14 @@ postgresql:
 - docker(local dev): docker compose up -d 
 
 ## 项目地址
-.
+```
 ├── components      // 前端组件
 ├── packages        // library 
 ├── pages           // 页面路由
 ├── prisma          // Prisma 数据库配置
 ├── public          // 公共资源
 ├── styles          // 样式文件
-
+```
 
 ## ToDo
 
