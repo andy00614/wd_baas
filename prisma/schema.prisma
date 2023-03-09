@@ -30,4 +30,5 @@ model EarnRecord {
   id Int @id @default(autoincrement())
   address String
   score Int
+  timestamp DateTime @default(now())
 }
