@@ -1,7 +1,16 @@
 import Head from 'next/head'
 import styles from '@/styles/Home.module.scss'
+import { useState } from 'react'
+import { SyncOutlined, UserOutlined } from '@ant-design/icons'
+import { Col, message, Row } from 'antd'
+import { Card } from 'antd';
 
 export default function Home() {
+  const [address, setAddress] = useState(`0x${'0'.repeat(40)}`)
+  const [money, setMoney] = useState(0)
+  const refreshMoney = () => {
+    message.success('刷新成功！')
+  }
   return (
     <>
       <Head>
@@ -11,11 +20,26 @@ export default function Home() {
         <link rel="icon" href="/crypto.png" />
       </Head>
       <main className={styles.main}>
-        <div style={{ padding: 100 }}>
-          <section>
-            <span>Address: {}</span>
-          </section>
-        </div>
+        <Row gutter={16}>
+          <Col span={12}>
+            <Card title="Earn Money" bordered={false}>
+              <section>
+                <UserOutlined className={styles.userIcon} style={{ fontSize: 18, color: '#40a9ff' }} />
+                <span>{address}</span>
+                <div className={styles.money}>
+                  <span>余额:</span>
+                  <span>{money}</span>
+                  <SyncOutlined onClick={refreshMoney} className={styles.refresh} />
+                </div>
+              </section>
+            </Card>
+          </Col>
+          <Col span={12}>
+            <Card title="Wallet" bordered={false}>
+              Card content
+            </Card>
+          </Col>
+        </Row>
       </main>
     </>
   )
