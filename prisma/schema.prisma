@@ -12,8 +12,11 @@ datasource db {
 
 model Address {
   id Int @id @default(autoincrement())
-  address String @unique
+  publicKey String @unique
+  privateKey String @unique
   balance Int
+  createTime DateTime @default(now())
+  mnemonic String 
 }
 
 model Trade {

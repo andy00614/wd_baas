@@ -7,19 +7,20 @@ import { GetServerSideProps } from 'next';
 import { generateRandomWalletAddress } from '@/packages/lib/address';
 import prisma from '@/packages/lib/prisma';
 import { Address } from '@prisma/client';
+import Wallet from '@/components/Wallet';
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const randomKey = generateRandomWalletAddress()
-  const address = await prisma.address.create({
-    data: {
-      address: randomKey,
-      balance: 0
-    }
-  })
-  return {
-    props: { address },
-  };
-};
+// export const getServerSideProps: GetServerSideProps = async () => {
+//   const randomKey = generateRandomWalletAddress()
+//   const address = await prisma.address.create({
+//     data: {
+//       address: randomKey,
+//       balance: 0
+//     }
+//   })
+//   return {
+//     props: { address },
+//   };
+// };
 
 export default function Home(props: {address: Address}) {
   return (
@@ -34,12 +35,12 @@ export default function Home(props: {address: Address}) {
         <Row gutter={16}>
           <Col span={12}>
             <Card title="Earn Money" bordered={false}>
-              <Earn {...props.address}/>
+              {/* <Earn {...props.address}/> */}
             </Card>
           </Col>
           <Col span={12}>
             <Card title="Wallet" bordered={false}>
-              Card content
+              <Wallet />
             </Card>
           </Col>
         </Row>

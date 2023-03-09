@@ -6,7 +6,7 @@ import { Address } from "@prisma/client"
 import { request } from "@/packages/lib/request"
 
 const Earn: React.FC<Address> = (props) => {
-  const [address, setAddress] = useState(props.address)
+  const [address, setAddress] = useState(props.publicKey)
   const [money, setMoney] = useState(props.balance)
   const [earnedToken, setEarnedToken] = useState(0)
 
