@@ -1,38 +1,20 @@
 .container {
-  section {
-    margin-bottom: 24px;
+  .moneyType {
+    div {
+      margin: 6px;
+    }
   }
-  .addressWrapper {
+  .inputWrapper {
     display: flex;
-    align-items: center;
-    .address {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      cursor: pointer;
-    }
-    .money {
-      display: flex;
-      align-items: center;
-      width: 120px;
-      margin-left: 12px;
-    }
   }
-  .earnWrapper {
-    span {
-      margin-left: 12px;
-    }
-    .transferOut {
-      margin-top: 12px;
-    }
-  }
-  .userIcon {
-    margin-right: 12px;
-  }
-  
-  .refresh {
+  .checkBtn {
     margin-left: 12px;
-    cursor: pointer;
+  }
+  .btnConfirm {
+    margin-left: 12px;
+  }
+  section {
+    margin: 12px 0;
   }
 }
 

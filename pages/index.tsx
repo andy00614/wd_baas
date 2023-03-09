@@ -34,8 +34,8 @@ export default function Home(props: {address: Address}) {
       <main className={styles.main}>
         <Row gutter={16}>
           <Col span={12}>
-            <Card title="Earn Money" bordered={false}>
-              {/* <Earn {...props.address}/> */}
+            <Card title="Money" bordered={false}>
+              <Earn {...props.address}/>
             </Card>
           </Col>
           <Col span={12}>
