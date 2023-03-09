@@ -1,0 +1,33 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Address {
+  id Int @id @default(autoincrement())
+  address String @unique
+  balance Int
+}
+
+model Trade {
+  id Int @id @default(autoincrement())
+  from String 
+  fromId Int
+  to String
+  toId Int
+  amount Int
+  timestamp DateTime @default(now())
+}
+
+model EarnRecord {
+  id Int @id @default(autoincrement())
+  address String
+  score Int
+}
