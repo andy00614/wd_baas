@@ -4,8 +4,8 @@ import { Col, Row } from 'antd'
 import { Card } from 'antd';
 import Earn from '@/components/Earn'
 import { GetServerSideProps } from 'next';
-import { generateRandomWalletAddress } from '@/lib/address';
-import prisma from '@/lib/prisma';
+import { generateRandomWalletAddress } from '@/packages/lib/address';
+import prisma from '@/packages/lib/prisma';
 import { Address } from '@prisma/client';
 
 export const getServerSideProps: GetServerSideProps = async () => {

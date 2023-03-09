@@ -3,7 +3,7 @@ import styles from '@/styles/Earn.module.scss'
 import React, { useState } from "react"
 import { Button, message, Tooltip } from "antd"
 import { Address } from "@prisma/client"
-import { request } from "@/lib/request"
+import { request } from "@/packages/lib/request"
 
 const Earn: React.FC<Address> = (props) => {
   const [address, setAddress] = useState(props.address)
