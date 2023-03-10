@@ -25,6 +25,7 @@ export default async function handler(
     if(req.method === 'GET') {
       const serializedData  = await getAddressInDB()
       res.status(200).json(serializedData)
+      return;
     }
     const { balance, address, privateKey, mnemonic } = req.body
     const newAddress = await prisma.address.create({
@@ -37,6 +38,6 @@ export default async function handler(
     })
     res.status(200).json(newAddress)
   } catch(e:any) {
-    res.status(500).json({ error: e.message })
+    res.status(502).json({ error: e })
   }
 }
