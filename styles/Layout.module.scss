@@ -1,3 +1,8 @@
 .main {
-  padding: 20px;
+  padding: 8px 20px 20px 20px;
+  :global {
+    .ant-col {
+      margin-top: 12px;
+    }
+  }
 }

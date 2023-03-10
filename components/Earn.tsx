@@ -8,7 +8,7 @@ import useLoading from '@/hooks/useLoading'
 import { request } from '@/packages/lib/request'
 
 
-const Earn: React.FC<Address> = (props) => {
+const Earn: React.FC = () => {
   const [canCheck, setCanCheck] = useState(false)
   const web3Instance = useRef<any>()
   const key = useRef<any>(null)
@@ -76,7 +76,6 @@ const Earn: React.FC<Address> = (props) => {
         message.error('withdraw failed!')
       }
     } else {
-      console.log(withdrawRef)
       withdrawRef.current?.checked && (withdrawRef.current.checked = true);
       message.error('please check input!')
     }

@@ -17,9 +17,10 @@ postgresql:
 ## ToDo
 
 - [x] 配置远程数据库(Configure remote database)
-- [ ] 完成页面交互(Complete page interaction)
+- [x] 完成页面交互(Complete page interaction)
 - [x] 生成地址功能(generator address)
-- [ ] 查询余额功能(query balance)
+- [x] 查询余额功能(query balance)
 - [x] 赚取代币功能(earn token)
-- [ ] 提现功能(withdraw)
-- [ ] 展示钱包列表(show wallet list)
+- [x] 提现功能(withdraw)
+- [x] 展示钱包列表(show wallet list)
+- [] 代码隐藏秘钥，部署时候添加(hide key)

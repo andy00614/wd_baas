@@ -8,21 +8,24 @@ import { generateRandomWalletAddress } from '@/packages/lib/address';
 import prisma from '@/packages/lib/prisma';
 import { Address } from '@prisma/client';
 import Wallet from '@/components/Wallet';
+import AddressList from '@/components/Address';
 
-// export const getServerSideProps: GetServerSideProps = async () => {
-//   const randomKey = generateRandomWalletAddress()
-//   const address = await prisma.address.create({
-//     data: {
-//       address: randomKey,
-//       balance: 0
-//     }
-//   })
-//   return {
-//     props: { address },
-//   };
-// };
+export const getServerSideProps: GetServerSideProps = async () => {
+  const address = await prisma.address.findMany()
+  const serializedData = JSON.parse(JSON.stringify(address, (key, value) => {
+    if (key === 'createTime') {
+      return new Date(value).toISOString();
+    }
+    return value;
+  }));
+  console.log(serializedData)
+  return {
+    props: { address: serializedData },
+  };
+};
 
-export default function Home(props: {address: Address}) {
+export default function Home(props: { address: Address[] }) {
+  console.log(props.address)
   return (
     <>
       <Head>
@@ -35,12 +38,19 @@ export default function Home(props: {address: Address}) {
         <Row gutter={16}>
           <Col span={12}>
             <Card title="Money" bordered={false}>
-              <Earn {...props.address}/>
+              <Earn />
             </Card>
           </Col>
           <Col span={12}>
             <Card title="Wallet" bordered={false}>
               <Wallet />
+            </Card>
+          </Col>
+          <Col span={12}>
+            <Card title="Address" bordered={false}>
+              <AddressList
+                list={props.address.map(item => ({ address: item.publicKey, time: item.createTime }))}
+              />
             </Card>
           </Col>
         </Row>
