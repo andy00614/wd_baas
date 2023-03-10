@@ -1,5 +1,5 @@
 import { Button, message, Spin, Tag } from "antd"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { walletGenerate, walletAddress, walletPKey } from '@/packages/web3'
 import styles from '@/styles/Wallet.module.scss'
 import { request } from "@/packages/lib/request"
@@ -13,7 +13,7 @@ function getRandomColor() {
   return colors[randomIndex];
 }
 
-const Wallet = () => {
+const Wallet = (props: {gencallBack: () => void}) => {
   const [wallet, setWallet] = useState({ public: '', private: '' })
   const [loading, setLoading] = useState(false)
   const [MnemonicWords, setMnemonicWords] = useState<string[]>([])
@@ -30,17 +30,23 @@ const Wallet = () => {
       )
       const publicAdress = address.address
       const privateKey = privkey.key
-      request('/api/address', 'POST', { mnemonic: pubkey.mnemonic, address: publicAdress, privateKey: privateKey, balance: 0 })
+      await request('/api/address', 'POST', { mnemonic: pubkey.mnemonic, address: publicAdress, privateKey: privateKey, balance: 0 })
       setWallet({
         public: publicAdress,
         private: privkey.key,
       })
       setMnemonicWords(pubkey.mnemonic.split(' '))
       message.success('钱包生成成功')
+      props.gencallBack()
     } finally {
       setLoading(false)
     }
   }
+
+  const words = useMemo(() => MnemonicWords.map(
+    item => <Tag className={styles.tag} key={item} color={getRandomColor()}>{item}</Tag>),
+    [MnemonicWords]
+  ) 
 
   return <div className={styles.container}>
     <Spin spinning={loading}>
@@ -48,7 +54,7 @@ const Wallet = () => {
       <Button>记住了</Button>
       <div className={styles.address}>
         <div>助记词：
-          {MnemonicWords.map(item => <Tag className={styles.tag} key={item} color={getRandomColor()}>{item}</Tag>)}
+          {words}
         </div>
         <span>Address地址: {wallet.public}</span>
         <span>Private Key秘钥: {wallet.private}</span>

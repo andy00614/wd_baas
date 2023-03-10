@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import styles from '@/styles/Layout.module.scss'
-import { Col, Row } from 'antd'
+import { Button, Col, message, Row } from 'antd'
 import { Card } from 'antd';
 import Earn from '@/components/Earn'
 import { GetServerSideProps } from 'next';
@@ -9,32 +9,49 @@ import prisma from '@/packages/lib/prisma';
 import { Address } from '@prisma/client';
 import Wallet from '@/components/Wallet';
 import AddressList from '@/components/Address';
+import React, { ReactNode, useCallback, useState } from 'react';
+import { request } from '@/packages/lib/request';
+import { getAddressInDB } from './api/address';
+import {
+  RedoOutlined, SyncOutlined
+} from '@ant-design/icons'
+import useLoading from '@/hooks/useLoading';
+
+
+const getAddress = async () => {
+  const data = await request('/api/address', 'GET')
+  return data
+}
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const address = await prisma.address.findMany()
-  const serializedData = JSON.parse(JSON.stringify(address, (key, value) => {
-    if (key === 'createTime') {
-      return new Date(value).toISOString();
-    }
-    return value;
-  }));
-  console.log(serializedData)
+  const data = await getAddressInDB()
   return {
-    props: { address: serializedData },
+    props: { address: data },
   };
 };
 
-const Title = (src: string, title: string) => {
+const Title = (src: string, title: string, render?: ReactNode) => {
   return (
     <div className={styles.titleWrapper}>
       <img src={src} style={{ width: '28px', height: '28px' }} />
-      <span>{title}</span> 
+      <span>{title}</span>
+      {render}
     </div>
   )
 }
 
 export default function Home(props: { address: Address[] }) {
-  console.log(props.address)
+  const [list, setList] = useState<Address[]>(props.address)
+  const { loading, LoadingHoc } = useLoading()
+  const refreshAddress = async () => {
+    const data = await getAddress()
+    setList(data as Address[])
+  }
+
+  const handleRefresh = useCallback(LoadingHoc(async () => {
+    await LoadingHoc(refreshAddress)()
+  }), [])
+
   return (
     <>
       <Head>
@@ -53,14 +70,33 @@ export default function Home(props: { address: Address[] }) {
             </Card>
           </Col>
           <Col span={12}>
-            <Card title={Title('/bitcoin.png','Wallet')} bordered={false}>
-              <Wallet />
+            <Card title={Title('/bitcoin.png', 'Wallet')} bordered={false}>
+              <Wallet gencallBack={handleRefresh} />
             </Card>
           </Col>
           <Col span={12}>
-            <Card title={Title('/address.png','Address')} bordered={false}>
+            <Card
+              title={
+                Title(
+                  '/address.png',
+                  'Address',
+                  <SyncOutlined
+                    style={{ color: '#1890ff', position: 'relative', top: '1px' }}
+                    onClick={async() => {
+                      await handleRefresh()
+                      message.success('刷新成功')
+                    }}
+                  />
+                )
+              }
+              bordered={false}
+            >
               <AddressList
-                list={props.address.map(item => ({ address: item.publicKey, time: item.createTime }))}
+                loading={loading}
+                list={
+                  list
+                    .map(item => ({ address: item.publicKey, time: item.createTime, key: item.id }))
+                }
               />
             </Card>
           </Col>

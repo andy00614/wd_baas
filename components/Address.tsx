@@ -1,4 +1,4 @@
-import { Avatar, List } from "antd";
+import { Avatar, List, ListProps } from "antd";
 import dayjs from 'dayjs'
 import styles from '@/styles/List.module.scss'
 
@@ -7,10 +7,12 @@ export interface Address {
   list: {
     address: string;
     time: Date;
-  }[]
+  }[],
+  loading?: boolean
 }
 const Address: React.FC<Address> = (props) => {
   return <List
+    loading={props.loading}
     style={{height: '340px', overflow: 'auto'}}
     className={styles.listWrapper}
     itemLayout="horizontal"
