@@ -6,3 +6,11 @@
     }
   }
 }
+
+.titleWrapper {
+  display: flex;
+  align-items: center;
+  span {
+    margin-left: 12px;
+  }
+}

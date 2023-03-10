@@ -24,6 +24,15 @@ export const getServerSideProps: GetServerSideProps = async () => {
   };
 };
 
+const Title = (src: string, title: string) => {
+  return (
+    <div className={styles.titleWrapper}>
+      <img src={src} style={{ width: '28px', height: '28px' }} />
+      <span>{title}</span> 
+    </div>
+  )
+}
+
 export default function Home(props: { address: Address[] }) {
   console.log(props.address)
   return (
@@ -37,17 +46,19 @@ export default function Home(props: { address: Address[] }) {
       <main className={styles.main}>
         <Row gutter={16}>
           <Col span={12}>
-            <Card title="Money" bordered={false}>
+            <Card title={
+              Title('/money-bag.png', 'Money')
+            } bordered={false}>
               <Earn />
             </Card>
           </Col>
           <Col span={12}>
-            <Card title="Wallet" bordered={false}>
+            <Card title={Title('/bitcoin.png','Wallet')} bordered={false}>
               <Wallet />
             </Card>
           </Col>
           <Col span={12}>
-            <Card title="Address" bordered={false}>
+            <Card title={Title('/address.png','Address')} bordered={false}>
               <AddressList
                 list={props.address.map(item => ({ address: item.publicKey, time: item.createTime }))}
               />
