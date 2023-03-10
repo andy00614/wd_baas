@@ -1,22 +1,16 @@
-import { SyncOutlined, UserOutlined } from "@ant-design/icons"
 import styles from '@/styles/Earn.module.scss'
 import React, { useEffect, useState, useRef } from "react"
-import { Button, Input, InputNumber, message, Tooltip } from "antd"
+import { Button, Input, InputNumber, InputRef, message, Tooltip } from "antd"
 import { Address } from "@prisma/client"
-import { request } from "@/packages/lib/request"
 import { balanceBSC, balanceWDT, getScore, withdrawal } from '@/packages/web3'
 import Web3 from 'web3'
 
 const Earn: React.FC<Address> = (props) => {
-  const [address, setAddress] = useState(props.publicKey)
-  const [money, setMoney] = useState(props.balance)
-  const [earnedToken, setEarnedToken] = useState(0)
   const [canCheck, setCanCheck] = useState(false)
   const web3Instance = useRef<any>()
   const key = useRef<any>(null)
-  const addressRef = useRef(null)
-  const withdrawRef = useRef(null)
-  const scoreRef = useRef(null)
+  const addressRef = useRef<InputRef>(null)
+  const withdrawRef = useRef<HTMLInputElement>(null)
   const [score, setScore] = useState(0)
   const [wdt, setWdt] = useState(0)
   const [bsc, setBsc] = useState(0)
@@ -26,18 +20,6 @@ const Earn: React.FC<Address> = (props) => {
     web3Instance.current = new Web3(window.ethereum);
   }, [])
 
-  const refreshMoney = () => {
-    message.success('刷新成功！')
-  }
-
-  const earnToken = async () => {
-    // 1到5的随机数
-    const random = Math.floor(Math.random() * 5 + 1)
-    setEarnedToken(random + earnedToken)
-    const data = await request('/api/earn', 'POST', { address, score: random })
-    console.log(data)
-    message.success(`+${random}WD`)
-  }
 
   const checkAll = async () => {
     if (key.current) {
@@ -64,9 +46,11 @@ const Earn: React.FC<Address> = (props) => {
   }
 
   const withdraw = async () => {
-    console.log(withdrawRef.current.value, addressRef.current.input.value)
-    const _out = await withdrawal(Number(withdrawRef.current.value), addressRef.current.input.value);
-    console.log(_out)
+    if(withdrawRef.current?.value && addressRef.current?.input?.value) {
+      const _out = await withdrawal(Number(withdrawRef.current.value), addressRef.current.input.value);
+    } else {
+      message.error('please check input!')
+    }
   }
   return (
     <div className={styles.container}>
