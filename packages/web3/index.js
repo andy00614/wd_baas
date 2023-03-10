@@ -5,6 +5,7 @@ const API = {
 const WDT = process.env.WDT || process.env.NEXT_PUBLIC_WDT
 const CONTRACT_GAME = process.env.CONTRACT_GAME || process.env.NEXT_PUBLIC_CONTRACT_GAME
 
+console.log({API,WDT,CONTRACT_GAME})
 /*
 Below are the wallet functions
 以下都是钱包功能
