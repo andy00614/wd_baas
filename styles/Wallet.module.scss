@@ -14,5 +14,20 @@
     .tag {
       margin-right: 6px;
     }
+    .word {
+      margin-bottom: 8px;
+    }
+    .publicKey, .privateKey {
+      :global {
+        .ant-typography {
+          color: #999;
+        }
+      }
+      b {
+        width: 120px;
+        display: inline-flex;
+        margin-left: 8px;
+      }
+    }
   }
 }

@@ -87,13 +87,15 @@ body {
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
+  /* color: rgb(var(--foreground-rgb));
+  background: #ececec; */
   background: linear-gradient(
       to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
+      /* rgb(var(--background-end-rgb)) */
+      #ececec
     )
-    rgb(var(--background-start-rgb));
+    #ececec
 }
 
 a {
