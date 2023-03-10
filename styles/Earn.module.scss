@@ -3,18 +3,43 @@
     div {
       margin: 6px;
     }
+
+    .coinWrapper {
+      display: flex;
+      align-items: center;
+
+      .value {
+        margin-left: 8px;
+        display: flex;
+        align-items: center;
+
+        span:first-of-type {
+          font-weight: bold;
+          min-width: 46px;
+        }
+
+        span:last-child {
+          font-size: 16px;
+          color: #999;
+          margin-left: 8px;
+        }
+      }
+    }
   }
+
   .inputWrapper {
     display: flex;
   }
+
   .checkBtn {
     margin-left: 12px;
   }
+
   .btnConfirm {
     margin-left: 12px;
   }
+
   section {
     margin: 12px 0;
   }
 }
-

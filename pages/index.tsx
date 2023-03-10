@@ -1,15 +1,13 @@
 import Head from 'next/head'
 import styles from '@/styles/Layout.module.scss'
-import { Button, Col, message, Row } from 'antd'
+import { Col, message, Row } from 'antd'
 import { Card } from 'antd';
 import Earn from '@/components/Earn'
 import { GetServerSideProps } from 'next';
-import { generateRandomWalletAddress } from '@/packages/lib/address';
-import prisma from '@/packages/lib/prisma';
 import { Address } from '@prisma/client';
 import Wallet from '@/components/Wallet';
 import AddressList from '@/components/Address';
-import React, { ReactNode, useCallback, useState } from 'react';
+import  { ReactNode, useCallback, useState } from 'react';
 import { request } from '@/packages/lib/request';
 import { getAddressInDB } from './api/address';
 import {

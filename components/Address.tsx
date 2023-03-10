@@ -22,7 +22,7 @@ const Address: React.FC<Address> = (props) => {
         <List.Item.Meta
           avatar={<Avatar src="/crypto.png" />}
           title={<a href="#">{item.address}</a>}
-          description={dayjs(item.time).format('YYYY-MM-DD HH:MM:ss')}
+          description={dayjs(item.time).format('YYYY-MM-DD HH:mm:ss')}
         />
       </List.Item>
     )}
