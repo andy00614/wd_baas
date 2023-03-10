@@ -35,3 +35,10 @@ model EarnRecord {
   score Int
   timestamp DateTime @default(now())
 }
+
+model Withdraw {
+  id Int @id @default(autoincrement())
+  address String
+  score Int
+  timestamp DateTime @default(now())
+}

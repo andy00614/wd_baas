@@ -8,7 +8,6 @@ export default async function handler(
 ) {
   try {
     const { balance, address, privateKey, mnemonic } = req.body
-    console.log(balance, address, privateKey)
     const newAddress = await prisma.address.create({
       data: {
         publicKey: address,
