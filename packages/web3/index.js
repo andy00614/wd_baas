@@ -1,9 +1,10 @@
 const API = {
   'Content-Type': 'application/json',
-  'x-api-key': 'f1384f0e-abd1-4d69-bb64-4682beb7fde4',
+  'x-api-key': process.env.X_API_KEY || process.env.NEXT_PUBLIC_X_API_KEY
 };
-const WDT = '0x0C3FeE0988572C2703F1F5f8A05D1d4BFfeFEd5D';
-const CONTRACT_GAME = '0xd511E66bCB935302662f49211E0281a5878A4F92';
+const WDT = process.env.WDT || process.env.NEXT_PUBLIC_WDT
+const CONTRACT_GAME = process.env.CONTRACT_GAME || process.env.NEXT_PUBLIC_CONTRACT_GAME
+
 /*
 Below are the wallet functions
 以下都是钱包功能
