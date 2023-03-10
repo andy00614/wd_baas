@@ -23,4 +23,4 @@ postgresql:
 - [x] 赚取代币功能(earn token)
 - [x] 提现功能(withdraw)
 - [x] 展示钱包列表(show wallet list)
-- [] 代码隐藏秘钥，部署时候添加(hide key)
+- [x] 代码隐藏秘钥，部署时候添加(hide key)
