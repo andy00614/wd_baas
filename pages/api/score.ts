@@ -8,11 +8,11 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const { address, amount } = req.body
-    const data = await prisma.withdraw.create({
+    const { address, score } = req.body
+    const data = await prisma.score.create({
       data: {
         address,
-        amount: Number(amount)
+        score: Number(score)
       }
     })
     res.status(200).json(data)

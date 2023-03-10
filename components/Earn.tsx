@@ -2,7 +2,7 @@ import styles from '@/styles/Earn.module.scss'
 import React, { useEffect, useState, useRef } from "react"
 import { Button, Input, InputNumber, InputRef, message, Spin, Tooltip } from "antd"
 import { Address } from "@prisma/client"
-import { balanceBSC, balanceWDT, getScore, withdrawal } from '@/packages/web3'
+import { balanceBSC, balanceWDT, getScore, withdrawal, updateScore } from '@/packages/web3'
 import Web3 from 'web3'
 import useLoading from '@/hooks/useLoading'
 import { request } from '@/packages/lib/request'
@@ -14,6 +14,7 @@ const Earn: React.FC<Address> = (props) => {
   const key = useRef<any>(null)
   const addressRef = useRef<InputRef>(null)
   const withdrawRef = useRef<HTMLInputElement>(null)
+  const scoreRef = useRef<HTMLInputElement>(null)
   const [score, setScore] = useState(0)
   const [wdt, setWdt] = useState(0)
   const [bsc, setBsc] = useState(0)
@@ -47,22 +48,36 @@ const Earn: React.FC<Address> = (props) => {
     }
   }
 
-  const uploadGameScore = () => {
-    
+  const uploadGameScore = async () => {
+    const address = addressRef.current?.input?.value
+    const score = scoreRef.current?.value
+    if(address && score) {
+      const _score = await updateScore(score, address);
+      if(_score.txId) {
+        await request('/api/score','POST',{address, score})
+        message.success('upload success!')
+      } else {
+        message.error('upload failed')
+      }
+    } else {
+      message.error('please check input!')
+    }
   }
 
   const withdraw = async () => {
     const address = addressRef.current?.input?.value
-    const score = withdrawRef.current?.value
-    if (score && address) {
-      const _out = await withdrawal(Number(withdrawRef.current.value), address);
+    const amount = withdrawRef.current?.value
+    if (amount && address) {
+      const _out = await withdrawal(Number(amount), address);
       if(_out.txId) {
-        await request('/api/withdraw','POST',{address, score})
-        message.success('withdraw成功!')
+        await request('/api/withdraw','POST',{address, amount})
+        message.success('withdraw success!')
       } else {
-        message.error('withdraw失败!')
+        message.error('withdraw failed!')
       }
     } else {
+      console.log(withdrawRef)
+      withdrawRef.current?.checked && (withdrawRef.current.checked = true);
       message.error('please check input!')
     }
   }
@@ -87,11 +102,11 @@ const Earn: React.FC<Address> = (props) => {
           </div>
         </section>
         <section>
-          <InputNumber style={{ width: '200px' }} placeholder="Enter score输入积分" />
-          <Button onClick={uploadGameScore} type="primary" className={styles.btnConfirm}>Upload game score</Button>
+          <InputNumber min={0} ref={scoreRef} style={{ width: '200px' }} placeholder="Enter score输入积分" />
+          <Button onClick={LoadingHoc(uploadGameScore)} type="primary" className={styles.btnConfirm}>Upload game score</Button>
         </section>
         <section>
-          <InputNumber ref={withdrawRef} style={{ width: '200px' }} placeholder="Enter amount 输入数" />
+          <InputNumber min={0} ref={withdrawRef} style={{ width: '200px' }} placeholder="Enter amount 输入数" />
           <Button onClick={LoadingHoc(withdraw)} type="primary" className={styles.btnConfirm}>Withdraw</Button>
         </section>
       </Spin>
